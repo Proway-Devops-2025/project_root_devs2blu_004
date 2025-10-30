@@ -138,3 +138,4 @@ class Mensalista(Base):
     empresa_id = Column(Integer, ForeignKey("empresas.id"), nullable=False)
 
     empresa = relationship("Empresa", back_populates="mensalistas")
+.
