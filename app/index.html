@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria do Adriano - A Melhor Pizza da Cidade!</title>
+    
+    <style>
+        :root {
+            --cor-primaria: #cc3333; /* Vermelho-Pizza */
+            --cor-secundaria: #ffcc00; /* Amarelo-Queijo */
+            --cor-fundo: #f8f8f8;
+            --cor-texto: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--cor-primaria);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #a32b2b;
+            border-radius: 5px;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--cor-primaria);
+            border-bottom: 3px solid var(--cor-secundaria);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .destaque-cardapio {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-around;
+        }
+
+        .pizza-item {
+            background-color: #fff3d6; /* Um amarelo mais claro */
+            padding: 15px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .pizza-item h3 {
+            color: var(--cor-primaria);
+            margin-bottom: 5px;
+        }
+
+        .pizza-item p {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .pizza-item .preco {
+            font-weight: bold;
+            color: #008000; /* Verde */
+            font-size: 1.2em;
+        }
+
+        .btn-pedido {
+            display: inline-block;
+            background-color: var(--cor-secundaria);
+            color: var(--cor-primaria);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: opacity 0.3s;
+        }
+
+        .btn-pedido:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            background-color: var(--cor-texto);
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+
+        .contato p {
+            margin: 5px 0;
+        }
+
+        /* Área de destaque/banner */
+        #banner {
+            background: url('https://via.placeholder.com/1200x400?text=Banner+Pizzaria+do+Adriano') no-repeat center center/cover;
+            color: white;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        #banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Overlay escuro */
+        }
+        #banner-content {
+            position: relative;
+            z-index: 1;
+        }
+        #banner-content h2 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 15px;
+            border-bottom: none;
+        }
+        #banner-content p {
+            font-size: 1.5em;
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Pizzaria do Adriano</h1>
+        <p>A Tradição e o Sabor em Cada Pedaço!</p>
+        <nav>
+            <ul>
+                <li><a href="#cardapio">Cardápio</a></li>
+                <li><a href="#promocoes">Promoções</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="banner">
+        <div id="banner-content">
+            <h2>🔥 A Pizza Perfeita Espera Por Você!</h2>
+            <p>Peça Agora e Receba em Casa o Melhor Sabor!</p>
+            <a href="#" class="btn-pedido">Fazer Pedido Online</a>
+        </div>
+    </div>
+
+    <main>
+        <section id="cardapio">
+            <h2>🍕 Cardápio em Destaque</h2>
+            <div class="destaque-cardapio">
+                <div class="pizza-item">
+                    <img src="https://via.placeholder.com/280x150?text=Mussarela" alt="Pizza Mussarela" style="width:100%; height:150px; object-fit: cover; border-radius: 5px;">
+                    <h3>Mussarela Clássica</h3>
+                    <p>Mussarela de primeira qualidade, tomates frescos e orégano.</p>
+                    <span class="preco">R$ 49,90</span>
+                    <a href="#" class="btn-pedido" style="margin-top: 10px;">Pedir</a>
+                </div>
+                
+                <div class="pizza-item">
+                    <img src="https://via.placeholder.com/280x150?text=Calabresa" alt="Pizza Calabresa" style="width:100%; height:150px; object-fit: cover; border-radius: 5px;">
+                    <h3>Calabresa Especial</h3>
+                    <p>Calabresa fatiada, cebola e um toque de azeite extra virgem.</p>
+                    <span class="preco">R$ 54,90</span>
+                    <a href="#" class="btn-pedido" style="margin-top: 10px;">Pedir</a>
+                </div>
+
+                <div class="pizza-item">
+                    <img src="https://via.placeholder.com/280x150?text=Frango+c/Catupiry" alt="Pizza Frango com Catupiry" style="width:100%; height:150px; object-fit: cover; border-radius: 5px;">
+                    <h3>Frango com Catupiry</h3>
+                    <p>Peito de frango desfiado e o autêntico Catupiry original.</p>
+                    <span class="preco">R$ 59,90</span>
+                    <a href="#" class="btn-pedido" style="margin-top: 10px;">Pedir</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="promocoes">
+            <h2>🎁 Promoção da Semana</h2>
+            <p>De Terça a Quinta: **Pizza Gigante + Refri 2L por apenas R$ 79,90!**</p>
+            <a href="#" class="btn-pedido">Aproveitar Promoção</a>
+        </section>
+
+        <section id="sobre">
+            <h2>👨‍🍳 Sobre a Pizzaria do Adriano</h2>
+            <p>Fundada em 2005, a Pizzaria do Adriano nasceu da paixão do chef Adriano por massas e ingredientes frescos. Nossa missão é levar o melhor da culinária italiana para a sua mesa, com o sabor inconfundível de uma pizza feita à lenha. Venha nos visitar ou peça o nosso sabor em sua casa!</p>
+        </section>
+
+        <section id="contato">
+            <h2>📞 Contato e Localização</h2>
+            <div class="contato">
+                <p><strong>Telefone:</strong> (99) 9999-9999</p>
+                <p><strong>WhatsApp:</strong> (99) 9999-9999</p>
+                <p><strong>Endereço:</strong> Rua da Pizza, 123 - Centro, Cidade Saborosa</p>
+                <p><strong>Horário:</strong> Terça a Domingo, das 18h às 23h.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Pizzaria do Adriano. Todos os direitos reservados. Feito com paixão.</p>
+    </footer>
+
+</body>
+</html>
