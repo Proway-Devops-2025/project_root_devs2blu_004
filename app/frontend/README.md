@@ -1,3 +1,5 @@
+Autor do código: Bryan Felipe Packer
+
 # 🍕 Pizzaria do Adriano - Front-end Estático
 
 Este é o repositório do front-end genérico e estático criado para a **Pizzaria do Adriano**. O objetivo é fornecer uma base visual clara, com foco em uma experiência de usuário simples e apetitosa.
