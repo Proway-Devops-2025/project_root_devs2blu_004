@@ -1,3 +1,8 @@
+# -----------------------------------------------------------------------------
+# Author: Adriano Machado <adriano@maxado.com.br>
+# Description: Dockerfile for the FastAPI backend service.
+# Last Updated: 2025-11-07
+# -----------------------------------------------------------------------------
 FROM python:3.11-slim AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

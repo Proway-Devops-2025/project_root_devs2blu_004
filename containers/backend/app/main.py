@@ -1,3 +1,9 @@
+"""
+Author: Adriano Machado <adriano@maxado.com.br>
+Description: FastAPI backend used in the Dev2Blu container stack.
+Last Updated: 2025-11-07
+"""
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List

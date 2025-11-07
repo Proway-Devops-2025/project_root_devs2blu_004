@@ -1,3 +1,8 @@
+<!--
+  Author: Adriano Machado <adriano@maxado.com.br>
+  Description: Guidance for building and operating the container stack.
+  Last Updated: 2025-11-07
+-->
 # Containers – Guia de Implementação
 
 ## Objetivo

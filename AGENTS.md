@@ -1,3 +1,8 @@
+<!--
+  Author: Adriano Machado <adriano@maxado.com.br>
+  Description: Repository-level contributor guidelines.
+  Last Updated: 2025-11-07
+-->
 # Repository Guidelines
 
 ## Project Structure & Module Organization

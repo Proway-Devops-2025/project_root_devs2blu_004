@@ -1,3 +1,8 @@
+# -----------------------------------------------------------------------------
+# Author: Adriano Machado <adriano@maxado.com.br>
+# Description: Dockerfile for the edge reverse proxy with self-signed TLS.
+# Last Updated: 2025-11-07
+# -----------------------------------------------------------------------------
 FROM nginx:1.25-alpine
 
 RUN apk add --no-cache openssl \

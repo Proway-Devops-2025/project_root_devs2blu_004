@@ -1,3 +1,8 @@
+# -----------------------------------------------------------------------------
+# Author: Adriano Machado <adriano@maxado.com.br>
+# Description: Local orchestration of backend, frontend, and edge services.
+# Last Updated: 2025-11-07
+# -----------------------------------------------------------------------------
 services:
   backend:
     build:
