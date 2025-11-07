@@ -54,3 +54,8 @@ containers/
 
 
 ## Deve conter um pagina Hello World com as palavras "Pizza da Turma DevOps" 
+
+```bash
+pwd
+
+```
