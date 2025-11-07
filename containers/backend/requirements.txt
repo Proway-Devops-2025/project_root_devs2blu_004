@@ -1,0 +1,6 @@
+# Author: Adriano Machado <adriano@maxado.com.br>
+# Description: Runtime dependencies for the FastAPI backend service.
+# Last Updated: 2025-11-07
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+watchfiles==0.21.0
