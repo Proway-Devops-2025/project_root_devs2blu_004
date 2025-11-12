@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.4 - 2025-11-12
+
+- Merge pull request #29 from Proway-Devops-2025/app-changes
+- feat: implementa mudanças reais no app
+
+
 ## v1.0.3 - 2025-11-12
 
 - Merge branch 'develop' of github.com:Proway-Devops-2025/project_root_devs2blu_004 into develop  Please enter a commit message to explain why this merge is necessary,  especially if it merges an updated upstream into a topic branch.
