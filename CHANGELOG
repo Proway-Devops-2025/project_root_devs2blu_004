@@ -1,0 +1,41 @@
+# Changelog
+
+## v1.0.4 - 2025-11-12
+
+- Merge pull request #29 from Proway-Devops-2025/app-changes
+- feat: implementa mudanças reais no app
+
+
+## v1.0.3 - 2025-11-12
+
+- Merge branch 'develop' of github.com:Proway-Devops-2025/project_root_devs2blu_004 into develop  Please enter a commit message to explain why this merge is necessary,  especially if it merges an updated upstream into a topic branch.
+-  Please enter the commit message for your changes. Lines starting  with '' will be ignored, and an empty message aborts the commit.
+
+
+## v1.0.2 - 2025-11-12
+
+- Merge branch 'develop' of github.com:Proway-Devops-2025/project_root_devs2blu_004 into develop  Please enter a commit message to explain why this merge is necessary,  especially if it merges an updated upstream into a topic branch.
+- README WORKFLOW
+
+
+## v1.0.1 - 2025-11-12
+
+-  Please enter the commit message for your changes. Lines starting  with '' will be ignored, and an empty message aborts the commit.
+- remove-snapchot.txt
+- Merge branch 'develop' of github.com:Proway-Devops-2025/project_root_devs2blu_004 into develop
+- Merge branch 'main' of github.com:Proway-Devops-2025/project_root_devs2blu_004
+- autochangelog and autoversion in workflow
+- actions-version-control
+- Merge pull request #26 from Proway-Devops-2025/hotfix/remove-exploit
+- Merge pull request #25 from Proway-Devops-2025/feat/002-equipe-floripa
+- remove-exploit
+- remove exploit
+- Feat/add function soma
+- Merge pull request #23 from Proway-Devops-2025/feat/002-equipe-floripa
+- adicionada função de calculo
+- Merge pull request #21 from Proway-Devops-2025/feat/002-equipe-floripa
+- adicionado feat-002 equipe floripa
+- Merge pull request #15 from Proway-Devops-2025/feature/task_017-containerizacao
+- Merge pull request #14 from Proway-Devops-2025/feat/frontend/readme
+- hotfix readme frontend app
+- adding a readme.md for frontend
