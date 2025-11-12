@@ -21,3 +21,7 @@ def calculate_bill(pizza_size, toppings, drink=None):
 
 # Exemplo de uso
 calculate_bill("medium", ["bacon", "onion", "olives"], drink="guaraná")
+
+add function william(soma);
+
+float soma = num1 + num2;
