@@ -25,3 +25,6 @@ calculate_bill("medium", ["bacon", "onion", "olives"], drink="guaraná")
 add function william(soma);
 
 float soma = num1 + num2;
+
+#Outra mudança
+add funcao GabrielM(par3, par4);
