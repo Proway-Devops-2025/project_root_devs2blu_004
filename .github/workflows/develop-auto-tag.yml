@@ -1,0 +1,58 @@
+name: Auto Tag Develop
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  tag-develop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute next v1.0.x tag
+        id: version
+        env:
+          TAG_PREFIX: v1.0.
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          LAST_TAG=$(git tag -l "${TAG_PREFIX}*" --sort=-version:refname | head -n 1)
+          if [ -z "$LAST_TAG" ]; then
+            NEXT_TAG="${TAG_PREFIX}0"
+          else
+            PATCH=${LAST_TAG#${TAG_PREFIX}}
+            if ! [[ "$PATCH" =~ ^[0-9]+$ ]]; then
+              echo "Última tag ${LAST_TAG} não possui parte numérica válida."
+              exit 1
+            fi
+            NEXT_PATCH=$((PATCH + 1))
+            NEXT_TAG="${TAG_PREFIX}${NEXT_PATCH}"
+          fi
+          echo "last_tag=${LAST_TAG}" >> "$GITHUB_OUTPUT"
+          echo "next_tag=${NEXT_TAG}" >> "$GITHUB_OUTPUT"
+          echo "Proxima tag: ${NEXT_TAG}"
+
+      - name: Create and push tag
+        env:
+          NEXT_TAG: ${{ steps.version.outputs.next_tag }}
+        run: |
+          set -euo pipefail
+          if [ -z "$NEXT_TAG" ]; then
+            echo "Sem nova tag para criar."
+            exit 0
+          fi
+          if git rev-parse "$NEXT_TAG" >/dev/null 2>&1; then
+            echo "Tag ${NEXT_TAG} já existe. Nada a fazer."
+            exit 0
+          fi
+          git tag -a "$NEXT_TAG" -m "Tag automática para merge na develop"
+          git push origin "$NEXT_TAG"
