@@ -1,3 +1,3 @@
-[submodule ".core"]
-	path = .core
+[submodule "core"]
+	path = core
 	url = git@github.com:Proway-Devops-2025/core_devs2blu_004.git
