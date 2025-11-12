@@ -5,7 +5,7 @@ Documento de referencia para o workflow `Auto Tag Develop` definido em `.github/
 ## Visao geral
 
 - **Objetivo**: garantir que cada merge ou push em `develop` produza um changelog atualizado e uma nova tag sequencial (`v1.0.0`, `v1.0.1`, ...).
-- **Acionadores**: `push` em `develop` ou execucao manual via `workflow_dispatch`.
+- **Acionadores**: `push` em `develop`, `pull_request` fechada/mergeada em `develop` e execucao manual via `workflow_dispatch`.
 - **Escopo**: apenas commits em `develop`. A branch `main` nao e modificada automaticamente.
 - **Permissoes**: workflow usa `contents: write` para criar commits/tags no repositorio.
 
@@ -34,9 +34,9 @@ Documento de referencia para o workflow `Auto Tag Develop` definido em `.github/
   - Se nao houver commits novos, o workflow encerra sem gerar tag.
 
 4. **Commit do changelog**  
-   - Configura o autor como `github-actions[bot]`.  
-   - Faz `git add CHANGELOG`, `git commit` e `git push origin HEAD:develop`.  
-   - A condicao `if: github.actor != 'github-actions[bot]'` impede que o proprio bot reexecute o fluxo em loop.
+  - Configura o autor como `github-actions[bot]`.  
+  - Faz `git add CHANGELOG`, `git commit` e `git push origin HEAD:develop`.  
+  - A condicao `if: github.actor != 'github-actions[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.merged == true)` evita loop do bot e garante execucao apenas quando uma PR for realmente mergeada.
 
 5. **Criacao e push da tag**  
    - Executado apenas se houve commit no changelog.  
