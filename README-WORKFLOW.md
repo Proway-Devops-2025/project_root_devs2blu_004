@@ -5,7 +5,7 @@ Documento de referencia para o workflow `Auto Tag Develop` (`.github/workflows/d
 ## Visao geral
 
 - **Objetivo**: cada entrega em `develop` gera uma nova tag incremental (patch) e cada PR mergeada em `main` cria uma nova versao major, reiniciando a contagem de patch.
-- **Acionadores**: `push` em `develop` ou `main`, `pull_request` fechada/mergeada para essas branches e execucao manual (`workflow_dispatch`) com selecao explicita da branch.
+- **Acionadores**: `push` em `develop` ou `main`, `pull_request` marcada como `closed` (somente quando mergeada) para essas branches e execucao manual (`workflow_dispatch`) com selecao explicita da branch.
 - **Escopo**: o workflow altera o `CHANGELOG` e cria tags diretamente na branch alvo (develop ou main). A outra branch nao e tocada automaticamente.
 - **Permissoes**: `contents: write` para permitir commits do bot e criacao de tags remotas.
 
@@ -22,7 +22,7 @@ Documento de referencia para o workflow `Auto Tag Develop` (`.github/workflows/d
    Utiliza `actions/checkout@v4` com `fetch-depth: 0`, garantindo acesso a todo o historico de commits e tags.
 
 2. **Deteccao da branch e calculo da proxima tag**  
-   - Identifica a branch alvo com base no evento (PR, push ou input manual).  
+   - Identifica a branch alvo com base no evento (PR fechado, push ou input manual).  
    - Define o tipo de release (`patch` para `develop`, `major` para `main`).  
    - Busca todas as tags `v*.0.*` para achar o maior `major` atual e o ultimo `patch`.  
    - Calcula a proxima tag seguindo as regras acima, sempre validando se o sufixo numerico esta correto.
@@ -42,7 +42,7 @@ Documento de referencia para o workflow `Auto Tag Develop` (`.github/workflows/d
 4. **Commit do changelog**  
    - Configura o autor como `github-actions[bot]`.  
    - Comita e faz push diretamente para a branch processada (`develop` ou `main`).  
-   - A condicao do job assegura que o bot nao reinicie o workflow e que PRs fechadas sem merge sejam ignoradas.
+   - A condicao do job assegura que o bot nao reinicie o workflow e que PRs fechadas sem merge sejam ignoradas (`pull_request` precisa chegar como `closed` **e** `merged`).
 
 5. **Criacao e push da tag**  
    - Cria uma tag anotada (`git tag -a vX.0.Y ...`) no commit atual.  
