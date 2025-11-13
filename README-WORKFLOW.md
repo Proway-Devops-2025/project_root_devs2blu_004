@@ -1,68 +1,73 @@
 # README - Fluxo de Tags e Changelog
 
-Documento de referencia para o workflow `Auto Tag Develop` definido em `.github/workflows/develop-auto-tag.yml`. Este fluxo automatiza o versionamento da branch `develop`, gera changelog e publica tags no padrao `v1.0.x`.
+Documento de referencia para o workflow `Auto Tag Develop` (`.github/workflows/develop-auto-tag.yml`). Ele controla as versoes geradas nas branches `develop` e `main`, alimenta o `CHANGELOG` e publica tags no formato `v<major>.0.<patch>`.
 
 ## Visao geral
 
-- **Objetivo**: garantir que cada merge ou push em `develop` produza um changelog atualizado e uma nova tag sequencial (`v1.0.0`, `v1.0.1`, ...).
-- **Acionadores**: `push` em `develop`, `pull_request` fechada/mergeada em `develop` e execucao manual via `workflow_dispatch`.
-- **Escopo**: apenas commits em `develop`. A branch `main` nao e modificada automaticamente.
-- **Permissoes**: workflow usa `contents: write` para criar commits/tags no repositorio.
+- **Objetivo**: cada entrega em `develop` gera uma nova tag incremental (patch) e cada PR mergeada em `main` cria uma nova versao major, reiniciando a contagem de patch.
+- **Acionadores**: `push` em `develop` ou `main`, `pull_request` fechada/mergeada para essas branches e execucao manual (`workflow_dispatch`) com selecao explicita da branch.
+- **Escopo**: o workflow altera o `CHANGELOG` e cria tags diretamente na branch alvo (develop ou main). A outra branch nao e tocada automaticamente.
+- **Permissoes**: `contents: write` para permitir commits do bot e criacao de tags remotas.
+
+## Regras de versionamento
+
+1. **Formato**: sempre `v<major>.0.<patch>`. O segundo campo permanece `0` para simplificar e focar apenas em major/patch.
+2. **Develop (patch)**: todo push/merge em `develop` incrementa o patch do maior `major` existente. Sem tags anteriores, inicia em `v1.0.0`.
+3. **Main (major)**: merge de PR em `main` incrementa o `major` global (ex.: `v1.0.x` -> `v2.0.0`). Caso nao existam commits novos desde a ultima tag, o changelog recebe uma anotacao padrao para manter o historico consistente.
+4. **Workflow dispatch**: aceita o input `target_branch` (`develop` ou `main`). Se omitido, assume `develop`.
 
 ## Etapas executadas
 
 1. **Checkout completo**  
-   Usa `actions/checkout@v4` com `fetch-depth: 0` para ter historico e tags locais.
+   Utiliza `actions/checkout@v4` com `fetch-depth: 0`, garantindo acesso a todo o historico de commits e tags.
 
-2. **Calculo da proxima tag**  
-   - Busca todas as tags que comecam com o prefixo `v1.0.`.  
-   - Ordena de forma decrescente pela porcao numerica (`v1.0.12` > `v1.0.9`).  
-   - Caso nao exista tag, inicia em `v1.0.0`.  
-   - Se o ultimo sufixo nao for numerico, o job falha para evitar saltos incorretos.
+2. **Deteccao da branch e calculo da proxima tag**  
+   - Identifica a branch alvo com base no evento (PR, push ou input manual).  
+   - Define o tipo de release (`patch` para `develop`, `major` para `main`).  
+   - Busca todas as tags `v*.0.*` para achar o maior `major` atual e o ultimo `patch`.  
+   - Calcula a proxima tag seguindo as regras acima, sempre validando se o sufixo numerico esta correto.
 
 3. **Atualizacao do changelog**  
-  - Determina o intervalo de commits entre a ultima tag e o `HEAD` atual (ou todo o historico se nao houver tag).  
-  - Extrai os assuntos (`%s`) de cada commit e formata como lista `- Mensagem`.  
-  - Garante que o arquivo `CHANGELOG` exista e reconstrui o conteudo com um cabecalho padrao:
-    ```text
-    # Changelog
+   - Coleta os assuntos dos commits desde a ultima tag global (`git log last_tag..HEAD`).  
+   - Se nao existirem commits e o release for `major`, insere uma linha padrao `- Release major sem commits adicionais desde a ultima tag.` para registrar o corte.  
+   - Reconstrui o arquivo `CHANGELOG`, adicionando o novo bloco no topo:
+     ```text
+     # Changelog
 
-    ## v1.0.X - AAAA-MM-DD
+     ## vX.0.Y - AAAA-MM-DD
 
-    - Mensagem do commit
-    ```
-  - Se nao houver commits novos, o workflow encerra sem gerar tag.
+     - Mensagem do commit
+     ```
 
 4. **Commit do changelog**  
-  - Configura o autor como `github-actions[bot]`.  
-  - Faz `git add CHANGELOG`, `git commit` e `git push origin HEAD:develop`.  
-  - A condicao `if: github.actor != 'github-actions[bot]' && (github.event_name != 'pull_request' || github.event.pull_request.merged == true)` evita loop do bot e garante execucao apenas quando uma PR for realmente mergeada.
+   - Configura o autor como `github-actions[bot]`.  
+   - Comita e faz push diretamente para a branch processada (`develop` ou `main`).  
+   - A condicao do job assegura que o bot nao reinicie o workflow e que PRs fechadas sem merge sejam ignoradas.
 
 5. **Criacao e push da tag**  
-   - Executado apenas se houve commit no changelog.  
-   - Cria uma tag anotada `git tag -a v1.0.X -m "Tag automatica para merge na develop"`.  
-   - Faz `git push origin v1.0.X`.  
-   - Se a tag ja existir (condicao rara, mas validada), nada e feito.
+   - Cria uma tag anotada (`git tag -a vX.0.Y ...`) no commit atual.  
+   - Faz `git push origin vX.0.Y`.  
+   - Caso a tag ja exista, a etapa termina silenciosamente.
 
 ## Como executar manualmente
 
-1. Acesse a aba **Actions** no GitHub.  
-2. Escolha o workflow **Auto Tag Develop**.  
-3. Clique em **Run workflow** e confirme a branch `develop`.  
-4. Aguarde a conclusao para ver logs de changelog/tag.
+1. Abra a aba **Actions** no GitHub.  
+2. Selecione **Auto Tag Develop**.  
+3. Clique em **Run workflow** e escolha `develop` ou `main` no campo `target_branch`.  
+4. Acompanhe os logs para verificar o novo bloco do changelog e a tag criada.
 
 ## Boas praticas e manutencao
 
-- **Mensagens de commit objetivas**: o changelog usa o assunto do commit; escreva descricoes claras.  
-- **Protecoes da branch**: garanta que o usuario `github-actions[bot]` possa fazer push na `develop` (por exemplo, habilitando _Allow GitHub Actions to push_ nas regras).  
-- **Mudanca de prefixo**: altere a variavel `TAG_PREFIX` na etapa "Compute next v1.0.x tag" caso precise de nova serie (`v1.1.`). Recomenda-se criar um novo arquivo `CHANGELOG` ou limpar o atual antes de trocar a numeracao.  
-- **Rollback**: se precisar excluir uma tag criada automaticamente, remova tanto local quanto remotamente (`git tag -d v1.0.X && git push origin :refs/tags/v1.0.X`) e ajuste o changelog manualmente.
+- **Mensagens de commit claras**: o changelog usa apenas o assunto (`%s`), portanto escreva titulos descritivos.  
+- **Protecoes de branch**: habilite permissoes para `github-actions[bot]` fazer push em `develop` e `main`.  
+- **Personalizacao do esquema**: caso deseje introduzir outro padrao (ex.: incluir numero de minor), adapte o script da etapa "Compute next tag".  
+- **Rollback de tags**: para remover uma versao, use `git tag -d vX.0.Y` e `git push origin :refs/tags/vX.0.Y`, ajustando o `CHANGELOG` manualmente em seguida.
 
 ## Solucao de problemas
 
-- **Workflow nao cria tag**: verifique se houve commits desde a ultima tag; sem commits nao ha tag nem changelog novo.  
-- **Erro em sufixo numerico**: confirme se todas as tags com prefixo `v1.0.` tem sufixo apenas numerico. Remova ou renomeie qualquer tag fora do padrao.  
-- **Loop infinito**: se remover o `if: github.actor != 'github-actions[bot]'`, o workflow pode reexecutar indefinidamente porque o bot gera novos commits. Mantenha esse filtro.  
-- **Conflitos no changelog**: caso edicoes manuais ocorram entre runs, resolva os conflitos e reexecute o workflow manualmente para alinhar o historico.
+- **Workflow nao cria tag**: confirme se ha commits desde a ultima tag (para releases patch). Para releases major, uma entrada padrao e criada mesmo sem commits.  
+- **Tags fora do padrao**: qualquer tag que nao respeite `v<numero>.0.<numero>` pode quebrar a ordenacao; renomeie-as ou remova-as.  
+- **Loop infinito**: mantenha o filtro `github.actor != 'github-actions[bot]'` para impedir reexecucao desencadeada pelos commits do bot.  
+- **Conflitos no `CHANGELOG`**: resolva manualmente e reexecute o workflow (ou rode via `workflow_dispatch`) para reescrever o topo do arquivo.
 
-Este documento deve ser atualizado sempre que o workflow sofrer alteracoes de logica, prefixo de tags ou arquivos manipulados.
+Atualize este documento sempre que o workflow sofrer mudancas estruturais.
