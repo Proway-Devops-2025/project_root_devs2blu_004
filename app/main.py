@@ -5,4 +5,7 @@ for n in range(1, 11):
     mensagem = f"{n} é {tipo} e a potencia é: {potencia}"
     print(mensagem)
 
-#################################################################
+
+
+
+## by prof. ok. 
